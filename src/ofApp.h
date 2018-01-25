@@ -45,36 +45,17 @@ public:
     ofxSyphonServer syphon;
     
     // Observers
-    Observer    obs;
-    ofEasyCam   cam;
+    Observer        obs;
     
     // Bodies
-    Body        sun;
-    Luna        luna;
-    ofxBody     moon;
-    int         moon_prevPhase;
-    vector<ofxMoon> moons;
-    vector<ofxBody> planets;
-    
-    // Ecliptical
-    ofPoint toEarth;
-    
-    // Equatorial
-    ofPoint     n_pole;
-    ofPoint     v_equi;
-    ofPoint     s_sols;
+    vector<ofxBody> bodies;
 
     // HUD
-    vector<Line> lines;
-    ofVboMesh   billboard;
-    ofShader    shader_moon;
-    
-    double      scale;
+    vector<Line>    lines;
     
     // Time
-    std::string date, oneYearIn;
-    double      day, prevDay;
-    int         month, prevMonth;
-    int         year, prevYear;
-    bool        bWriten;
+    std::string     date;
+    double          day;
+    int             month;
+    int             year;
 };
