@@ -49,13 +49,21 @@ public:
     
     // Bodies
     vector<ofxBody> bodies;
+    
+    // Stars
+    vector<Star>    stars;
+    vector<ofPoint> starsPos;
+    vector<float>   starsSize;
+    
+    // Constellations
+    vector<Constellation> constellations;
 
     // HUD
     vector<Line>    lines;
     
     // Time
     std::string     date;
-    double          day;
-    int             month;
-    int             year;
+    double          lng, lat;
+    double          day, sec;
+    int             month, year, hour, min;
 };

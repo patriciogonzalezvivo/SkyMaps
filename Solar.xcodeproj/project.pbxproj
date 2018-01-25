@@ -22,6 +22,7 @@
 		7975F374321A09F0FD879450 /* AstroOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4FACEA238A09DAC41AD2468 /* AstroOps.cpp */; };
 		8AB6D4766678600C25FA2CE2 /* GeoIPCity.c in Sources */ = {isa = PBXBuildFile; fileRef = 97223D6394C32D02E0B04AB0 /* GeoIPCity.c */; };
 		8D60C222CBD3F869382832E9 /* ofxSyphonServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32D6F27DC6308427F9A278C1 /* ofxSyphonServer.mm */; };
+		99A4B25920197326000FF98C /* ProjOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99A4B25720197326000FF98C /* ProjOps.cpp */; };
 		9D2314DD60244D97B1310F90 /* TimeOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0441A2EB63FA2C80763D11F0 /* TimeOps.cpp */; };
 		9D440D8ABDB0AF5F262C2607 /* GeoIP_deprecated.c in Sources */ = {isa = PBXBuildFile; fileRef = E9F004C3581FC0F5914A46B7 /* GeoIP_deprecated.c */; };
 		9D89842A534BEEBAF9C55475 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D7450B0C4488D0F9B604DE3 /* Vector.cpp */; };
@@ -98,6 +99,8 @@
 		87DCA636BDFFA23E67DBEE96 /* Observer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Observer.cpp; path = src/Astro/src/Observer.cpp; sourceTree = SOURCE_ROOT; };
 		8D08F5D837471CA49AD8EC84 /* EqPoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = EqPoint.h; path = src/Astro/src/EqPoint.h; sourceTree = SOURCE_ROOT; };
 		97223D6394C32D02E0B04AB0 /* GeoIPCity.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 30; name = GeoIPCity.c; path = src/GeoLoc/src/GeoIPCity.c; sourceTree = SOURCE_ROOT; };
+		99A4B25720197326000FF98C /* ProjOps.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProjOps.cpp; path = Astro/src/ProjOps.cpp; sourceTree = "<group>"; };
+		99A4B25820197326000FF98C /* ProjOps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ProjOps.h; path = Astro/src/ProjOps.h; sourceTree = "<group>"; };
 		99B030CD2017F40E009D624D /* ofxMoon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMoon.h; sourceTree = "<group>"; };
 		99B030CE2017F600009D624D /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = bin/data/shaders; sourceTree = SOURCE_ROOT; };
 		A3F6A8D257CB170EB4C9545B /* Vsop.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Vsop.h; path = src/Astro/src/Vsop.h; sourceTree = SOURCE_ROOT; };
@@ -244,6 +247,8 @@
 				0441A2EB63FA2C80763D11F0 /* TimeOps.cpp */,
 				DB24191460C569E2F93DC193 /* AstroOps.h */,
 				B4FACEA238A09DAC41AD2468 /* AstroOps.cpp */,
+				99A4B25820197326000FF98C /* ProjOps.h */,
+				99A4B25720197326000FF98C /* ProjOps.cpp */,
 				67B272369C046A6D50BCEC0A /* Vector.h */,
 				1D7450B0C4488D0F9B604DE3 /* Vector.cpp */,
 				8D08F5D837471CA49AD8EC84 /* EqPoint.h */,
@@ -260,8 +265,8 @@
 				A55BCC2A9476BD762BDAAF16 /* Constellation.cpp */,
 				A3F6A8D257CB170EB4C9545B /* Vsop.h */,
 				015B6D8A97CB18A68C7AE44F /* Vsop.cpp */,
-				C2FBC330187C7C3EB838594B /* Pluto.cpp */,
 				855A05C19FAFD7F81E5C7FEA /* Pluto.h */,
+				C2FBC330187C7C3EB838594B /* Pluto.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 				02E3E9CC05EA26ED237474A1 /* Observer.cpp in Sources */,
 				4C8A61165F62AE7019415819 /* Pluto.cpp in Sources */,
 				9D2314DD60244D97B1310F90 /* TimeOps.cpp in Sources */,
+				99A4B25920197326000FF98C /* ProjOps.cpp in Sources */,
 				9D89842A534BEEBAF9C55475 /* Vector.cpp in Sources */,
 				DA7D67F890516D18EB3D2F2B /* Body.cpp in Sources */,
 				70167CCD1323F074F807179D /* EqPoint.cpp in Sources */,
