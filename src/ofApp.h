@@ -10,10 +10,8 @@
 #include "Astro/src/Observer.h"
 #include "Astro/src/Luna.h"
 #include "Astro/src/Star.h"
+#include "Astro/src/Body.h"
 #include "Astro/src/Constellation.h"
-
-#include "ofxBody.h"
-#include "ofxMoon.h"
 
 #define TIME_ANIMATION
 
@@ -48,7 +46,13 @@ public:
     Observer        obs;
     
     // Bodies
-    vector<ofxBody> bodies;
+    vector<Body>    bodies;
+    
+    // Moon
+    Luna            moon;
+    ofShader        moonShader;
+    
+    ofVboMesh       billboard;
     
     // Stars
     vector<Star>    stars;

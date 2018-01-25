@@ -10,7 +10,6 @@
 		02E3E9CC05EA26ED237474A1 /* Observer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87DCA636BDFFA23E67DBEE96 /* Observer.cpp */; };
 		0FA1B110D4A2481DFA206BDF /* Constellation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A55BCC2A9476BD762BDAAF16 /* Constellation.cpp */; };
 		11DF9AB1B4EAA63E3B190CA0 /* ofxSyphonServerDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = E723BEF4C55D236E24639608 /* ofxSyphonServerDirectory.mm */; };
-		1A0066308732F1DCCAD559F8 /* ofxBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDD2F3877CC7A8946674BE9B /* ofxBody.cpp */; };
 		1E61EC85711A33166A12E23A /* Star.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46B03D127CE4C9328E2C5C46 /* Star.cpp */; };
 		1F558B76FB3412843DDAA031 /* ofxSyphonClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03EA4DA95B5E1B8409FC058E /* ofxSyphonClient.mm */; };
 		24B72081CECCBCF16BCA0736 /* GeoIP.c in Sources */ = {isa = PBXBuildFile; fileRef = 5658F4B51BA763F176EB76CE /* GeoIP.c */; };
@@ -101,7 +100,6 @@
 		97223D6394C32D02E0B04AB0 /* GeoIPCity.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 30; name = GeoIPCity.c; path = src/GeoLoc/src/GeoIPCity.c; sourceTree = SOURCE_ROOT; };
 		99A4B25720197326000FF98C /* ProjOps.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProjOps.cpp; path = Astro/src/ProjOps.cpp; sourceTree = "<group>"; };
 		99A4B25820197326000FF98C /* ProjOps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ProjOps.h; path = Astro/src/ProjOps.h; sourceTree = "<group>"; };
-		99B030CD2017F40E009D624D /* ofxMoon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMoon.h; sourceTree = "<group>"; };
 		99B030CE2017F600009D624D /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = bin/data/shaders; sourceTree = SOURCE_ROOT; };
 		A3F6A8D257CB170EB4C9545B /* Vsop.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Vsop.h; path = src/Astro/src/Vsop.h; sourceTree = SOURCE_ROOT; };
 		A55BCC2A9476BD762BDAAF16 /* Constellation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Constellation.cpp; path = src/Astro/src/Constellation.cpp; sourceTree = SOURCE_ROOT; };
@@ -110,7 +108,6 @@
 		AC87A044EEF7EA6077E0883A /* Luna.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Luna.h; path = src/Astro/src/Luna.h; sourceTree = SOURCE_ROOT; };
 		B4FACEA238A09DAC41AD2468 /* AstroOps.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = AstroOps.cpp; path = src/Astro/src/AstroOps.cpp; sourceTree = SOURCE_ROOT; };
 		C2FBC330187C7C3EB838594B /* Pluto.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Pluto.cpp; path = src/Astro/src/Pluto.cpp; sourceTree = SOURCE_ROOT; };
-		CDD2F3877CC7A8946674BE9B /* ofxBody.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxBody.cpp; path = src/ofxBody.cpp; sourceTree = SOURCE_ROOT; };
 		D58DCB2C0AEFDE6171E29540 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = ../../../addons/ofxSyphon/libs/Syphon/lib/osx/Syphon.framework; sourceTree = "<group>"; };
 		DB24191460C569E2F93DC193 /* AstroOps.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = AstroOps.h; path = src/Astro/src/AstroOps.h; sourceTree = SOURCE_ROOT; };
 		E3405C5AE387BDDC2AD19473 /* SyphonNameboundClient.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = SyphonNameboundClient.m; path = ../../../addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m; sourceTree = SOURCE_ROOT; };
@@ -125,7 +122,6 @@
 		E723BEF4C55D236E24639608 /* ofxSyphonServerDirectory.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = ofxSyphonServerDirectory.mm; path = ../../../addons/ofxSyphon/src/ofxSyphonServerDirectory.mm; sourceTree = SOURCE_ROOT; };
 		E9F004C3581FC0F5914A46B7 /* GeoIP_deprecated.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 30; name = GeoIP_deprecated.c; path = src/GeoLoc/src/GeoIP_deprecated.c; sourceTree = SOURCE_ROOT; };
 		F25E742ED99BC69B000A63E8 /* GeoLoc.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = GeoLoc.cpp; path = src/GeoLoc/src/GeoLoc.cpp; sourceTree = SOURCE_ROOT; };
-		F9492DB957324DCFFBA90243 /* ofxBody.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxBody.h; path = src/ofxBody.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,9 +310,6 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
-				F9492DB957324DCFFBA90243 /* ofxBody.h */,
-				CDD2F3877CC7A8946674BE9B /* ofxBody.cpp */,
-				99B030CD2017F40E009D624D /* ofxMoon.h */,
 				DFBD7602252E3C5475B1AC44 /* GeoLoc */,
 				5692D35F95919D557ACFF62F /* Astro */,
 				99B030CE2017F600009D624D /* shaders */,
@@ -422,7 +415,6 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				1A0066308732F1DCCAD559F8 /* ofxBody.cpp in Sources */,
 				6AB0ED712485FCCD8DF8F5CB /* pread.c in Sources */,
 				D6436D62D6F5044D4896AE40 /* GeoLoc.cpp in Sources */,
 				9D440D8ABDB0AF5F262C2607 /* GeoIP_deprecated.c in Sources */,

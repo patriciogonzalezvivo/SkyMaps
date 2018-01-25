@@ -7,7 +7,12 @@
 #include "TimeOps.h"
 double initial_jd;
 
-const std::string month_names[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
+
+bool in_array(const std::string &value, const std::vector<string> &array){
+    return std::find(array.begin(), array.end(), value) != array.end();
+}
 
 ofPoint coord2EquatorialSphere(Star &_star, float _distance) {
     Vector eclip = _star.getEquatorialVector() * _distance;
@@ -20,24 +25,46 @@ void ofApp::setup(){
     ofSetBackgroundColor(0);
     ofSetCircleResolution(36);
     
+    // Initial Location
     geoLoc(lng, lat, ofToDataPath(GEOIP_DB), ofToDataPath(GEOLOC_FILE));
     obs = Observer(lng, lat);
     
+    // Initial Time
     initial_jd = obs.getJulianDate();
     
-    BodyId bodies_names[] = { SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, LUNA };
-    float bodies_sizes[] = { 5, 0.0561, 0.1377, 0.17, 0.255, 1.87*.5, 1.615*.5, 0.68, 0.68, 0.0306, 0.0459 };
-    
-    for (int i = 0; i < 11; i++) {
-        bodies.push_back(ofxBody(bodies_names[i], bodies_sizes[i] * 10.));
+    // Instanciate Bodies: Sun + 9 planets
+    for (int i = 10; i >= 0; i--) {
+        if (i != 3) {
+            bodies.push_back( Body( BodyId(i) ) );
+        }
     }
     
+    // Instanciate Moon
+    moon = Luna();
+    moonShader.load("shaders/moon.vert","shaders/moon.frag");
+    
+    billboard.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+    billboard.addVertex(ofPoint(-1.,-1));
+    billboard.addTexCoord(ofVec2f(0.,1.));
+    billboard.addColor(ofFloatColor(1.));
+    billboard.addVertex(ofPoint(-1.,1));
+    billboard.addTexCoord(ofVec2f(0.,0.));
+    billboard.addColor(ofFloatColor(1.));
+    billboard.addVertex(ofPoint(1.,1));
+    billboard.addTexCoord(ofVec2f(1.,0.));
+    billboard.addColor(ofFloatColor(1.));
+    billboard.addVertex(ofPoint(1.,-1));
+    billboard.addTexCoord(ofVec2f(1.,1.));
+    billboard.addColor(ofFloatColor(1.));
+    
+    // Instanciate Stars
     for (int i = 0; i < Star::TOTAL; i++) {
         stars.push_back(Star(i));
         starsPos.push_back(ofPoint(0.));
-        starsSize.push_back(1. + pow(1.-stars[i].getMagnitud()/6., 1.5)*4.);
+        starsSize.push_back(1. + pow(1.-stars[i].getMagnitud()/6., 1.2)*4.);
     }
     
+    // Instanciate Constellations
     for (int i = 0; i < Constellation::TOTAL; i++) {
         constellations.push_back(Constellation(i));
     }
@@ -68,14 +95,14 @@ void ofApp::update(){
         bodies[i].compute(obs);
     }
     
-    // Update stars positions
+    // Update moon position
+    moon.compute(obs);
     
+    // Update stars positions
     for (int i = 0; i < Star::TOTAL; i++) {
         stars[i].compute(obs);
         double x, y;
-        ProjOps::horizontalToPolar(stars[i], 1, 1, x, y);
-        x -= .5;
-        y -= .5;
+        ProjOps::horizontalToFisheye(stars[i], x, y);
         starsPos[i].x = x * ofGetHeight();
         starsPos[i].y = y * ofGetHeight();
     }
@@ -87,46 +114,99 @@ void drawString(std::string str, int x , int y) {
     ofDrawBitmapStringHighlight(str, x - str.length() * 4, y);
 }
 
+void drawString(std::string str, ofPoint p) {
+    drawString(str, p.x, p.y);
+}
+
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofPushMatrix();
     ofTranslate(ofGetWidth()*.5, ofGetHeight()*.5);
     
-    ofSetColor(255, 100);
+    // Draw Constellations
     for (auto& constellation : constellations) {
         vector<int> indices = constellation.getStarIndices();
         for (int i = 0; i < indices.size(); i+=2) {
-            if ( starsPos[indices[i]].distance(ofPoint(0)) > ofGetHeight()*.5 ||
+            if ( starsPos[indices[i]].distance(ofPoint(0)) > ofGetHeight()*.5 &&
                 starsPos[indices[i+1]].distance(ofPoint(0)) > ofGetHeight()*.5 ) {
                 continue;
+            }
+            std::string name = constellation.getAbbreviation();
+            if (in_array(name, zodiacSigns) ) {
+                ofSetColor(255, 100);
+            }
+            else {
+                ofSetColor(255, 50);
             }
             ofDrawLine(starsPos[indices[i]], starsPos[indices[i+1]]);
         }
     }
     
-    
+    // Draw Stars
     for (int i = 0; i < Star::TOTAL; i++) {
         if ( starsPos[i].distance(ofPoint(0)) > ofGetHeight()*.5) {
             continue;
         }
         ofSetColor(0);
         ofDrawCircle(starsPos[i], starsSize[i]);
-        ofSetColor(255);
+        ofSetColor(255,200);
         ofDrawCircle(starsPos[i], starsSize[i]-1.);
     }
     
-   
+    // Draw Bodies
+    for (int i = 0; i < bodies.size(); i++) {
+        double x, y;
+        ProjOps::horizontalToFisheye(bodies[i], x, y);
+        ofPoint bodyPos = ofPoint(x, y) * ofGetHeight();
+        
+        if ( bodyPos.distance(ofPoint(0)) > ofGetHeight()*.5) {
+            continue;
+        }
+        
+        ofSetColor(255);
+        drawString(bodies[i].getBodyName(), bodyPos + ofPoint(0.,20));
+        if (bodies[i].getBodyId() == SUN) {
+            ofDrawCircle(bodyPos, 10);
+        }
+        else {
+            ofDrawCircle(bodyPos, 3);
+        }
+        
+    }
+    
+    // Draw Moon
+    {
+        double x, y;
+        ProjOps::horizontalToFisheye(moon, x, y);
+        ofPoint moonPos = ofPoint(x, y) * ofGetHeight();
+        
+        if ( moonPos.distance(ofPoint(0)) < ofGetHeight()*.5) {
+            float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
+            
+            ofSetColor(255);
+            drawString(moon.getBodyName(), moonPos + ofPoint(0.,25));
+            
+            moonShader.begin();
+            ofPushMatrix();
+            ofTranslate(moonPos);
+            ofScale(10, 10);
+            moonShader.setUniform1f("u_synodic_day", moonPhase);
+            billboard.draw();
+            ofPopMatrix();
+            moonShader.end();
+        }
+    }
     
     ofPopMatrix();
     
     // Draw Date
-    drawString(date, ofGetWidth()*.5, ofGetHeight()-30);
+    drawString(date, ofGetWidth()*.5, 30);
+    drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 50);
     
-    drawString("N", ofGetWidth()*.5, 20);
     drawString("E", ofGetWidth()*.5-ofGetHeight()*.5, ofGetHeight()*.5);
     drawString("W", ofGetWidth()*.5+ofGetHeight()*.5, ofGetHeight()*.5);
+    drawString("S", ofGetWidth()*.5, ofGetHeight());
     
-    drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, ofGetHeight()-50);
     
     // Share screen through Syphon
     syphon.publishScreen();

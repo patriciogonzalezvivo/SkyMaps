@@ -42,6 +42,7 @@ void main () {
     
     
     color.rgb = mix(vec3(.1), vec3(1.), diffuse);
+    
     color.a = alpha;
     
     fragColor = color;
