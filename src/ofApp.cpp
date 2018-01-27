@@ -2,7 +2,6 @@
 
 #include "GeoLoc/src/GeoLoc.h"
 #include "Astro/src/AstroOps.h"
-#include "Astro/src/ProjOps.h"
 #include "Astro/src/Vector.h"
 
 #include "TimeOps.h"
@@ -10,6 +9,7 @@ double initial_jd;
 
 const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
+std::vector<string> projectionName = { "Polar", "Fisheye", "Ortho", "Stereo", "Lambert", "Equirectangular" };
 
 bool in_array(const std::string &value, const std::vector<string> &array){
     return std::find(array.begin(), array.end(), value) != array.end();
@@ -87,6 +87,8 @@ void ofApp::setup(){
         lines.push_back(h);
     }
     
+    proj = POLAR;
+    
     syphon.setName("SkyMaps");
 }
 
@@ -163,9 +165,12 @@ void ofApp::draw(){
         }
 
         for (int i = 0; i < indices.size(); i+=2) {
-
             if (stars[indices[i]].getAltitud() < 0 &&
                 stars[indices[i+1]].getAltitud() < 0 ) {
+                continue;
+            }
+            
+            if (starsPos[indices[i]].distance(starsPos[indices[i+1]]) > ofGetWidth() * .5) {
                 continue;
             }
 
@@ -192,6 +197,11 @@ void ofApp::draw(){
                 double x1, y1, x2, y2;
                 PROJECT(boundary[i], x1, y1);
                 PROJECT(boundary[i+1], x2, y2);
+                
+                if (ofPoint(x1, y1).distance(ofPoint(x2, y2)) > ofGetWidth() * .5) {
+                    continue;
+                }
+                
                 ofDrawLine(ofPoint(x1, y1), ofPoint(x2, y2));
             }
         }
@@ -273,8 +283,9 @@ void ofApp::draw(){
     ofPopMatrix();
     
     // Draw Date
-    drawString(date, ofGetWidth()*.5, 30);
-    drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 50);
+    drawString(projectionName[proj], ofGetWidth()*.5, 30);
+    drawString(date, ofGetWidth()*.5, 50);
+    drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 70);
 
     
     // Share screen through Syphon
@@ -283,7 +294,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    proj = ProjId((proj+1)%6);
 }
 
 //--------------------------------------------------------------
