@@ -14,6 +14,8 @@
 #include "Astro/src/Constellation.h"
 
 #define TIME_ANIMATION
+#define PROJECT(S,X,Y) ProjOps::toPolar(POLAR, S, ofGetWidth(), ofGetHeight(), X, Y)
+#define PROJECTV(LNG,LAT,X,Y) ProjOps::toPolar(LNG, LAT, ofGetWidth(), ofGetHeight(), X, Y)
 
 struct Line {
     ofPoint A;

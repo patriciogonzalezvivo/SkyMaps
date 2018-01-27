@@ -3,6 +3,7 @@
 #include "GeoLoc/src/GeoLoc.h"
 #include "Astro/src/AstroOps.h"
 #include "Astro/src/ProjOps.h"
+#include "Astro/src/Vector.h"
 
 #include "TimeOps.h"
 double initial_jd;
@@ -61,12 +62,29 @@ void ofApp::setup(){
     for (int i = 0; i < Star::TOTAL; i++) {
         stars.push_back(Star(i));
         starsPos.push_back(ofPoint(0.));
-        starsSize.push_back(1. + pow(1.-stars[i].getMagnitud()/6., 1.2)*4.);
+        starsSize.push_back(0.8 * max(3-stars[i].getMagnitud()/2.1, 0.5));
     }
     
     // Instanciate Constellations
     for (int i = 0; i < Constellation::TOTAL; i++) {
         constellations.push_back(Constellation(i));
+    }
+    
+    vector<std::string> direction = { "S", "E", "N", "W" };
+    int step = 5;
+    int total = 360/step;
+    int labelstep = total/direction.size();
+    for (int i = 0; i < 72; i++) {
+        Line h;
+        float a = i*step-180;
+        float b = (i+1)*step-180;
+        h.A = ofPoint(0.0, ofDegToRad(a));
+        h.B = ofPoint(0.0, ofDegToRad(b));
+        h.T = ofPoint(ofDegToRad(3.0), ofDegToRad(a));
+        if (i%labelstep == 0) {
+            h.text = direction[int(i/labelstep)];
+        }
+        lines.push_back(h);
     }
     
     syphon.setName("SkyMaps");
@@ -102,9 +120,9 @@ void ofApp::update(){
     for (int i = 0; i < Star::TOTAL; i++) {
         stars[i].compute(obs);
         double x, y;
-        ProjOps::horizontalToFisheye(stars[i], x, y);
-        starsPos[i].x = x * ofGetHeight();
-        starsPos[i].y = y * ofGetHeight();
+        
+        PROJECT(stars[i], x, y);
+        starsPos[i] = ofPoint(x, y);
     }
 }
 
@@ -120,49 +138,90 @@ void drawString(std::string str, ofPoint p) {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofPushMatrix();
-    ofTranslate(ofGetWidth()*.5, ofGetHeight()*.5);
     
+    ofPushMatrix();
+
     // Draw Constellations
     for (auto& constellation : constellations) {
         vector<int> indices = constellation.getStarIndices();
+
+        bool bVisible = false;
+        bool bZodiac = false;
+
+        std::string name = constellation.getAbbreviation();
+        if (in_array(name, zodiacSigns) ) {
+            bZodiac = true;
+        }
+
+        if (bZodiac) {
+            ofSetLineWidth(1);
+            ofSetColor(255, 120);
+        }
+        else {
+            ofSetLineWidth(2);
+            ofSetColor(255, 70);
+        }
+
         for (int i = 0; i < indices.size(); i+=2) {
-            if ( starsPos[indices[i]].distance(ofPoint(0)) > ofGetHeight()*.5 &&
-                starsPos[indices[i+1]].distance(ofPoint(0)) > ofGetHeight()*.5 ) {
+
+            if (stars[indices[i]].getAltitud() < 0 &&
+                stars[indices[i+1]].getAltitud() < 0 ) {
                 continue;
             }
-            std::string name = constellation.getAbbreviation();
-            if (in_array(name, zodiacSigns) ) {
-                ofSetColor(255, 100);
-            }
-            else {
-                ofSetColor(255, 50);
-            }
+
+            bVisible = true;
             ofDrawLine(starsPos[indices[i]], starsPos[indices[i+1]]);
         }
+
+        if (bZodiac) {
+            ofSetLineWidth(1);
+            ofSetColor(255, 0, 0, 100);
+        }
+        else {
+            ofSetLineWidth(2);
+            ofSetColor(255, 0, 0, 50);
+        }
+
+        if (bVisible) {
+            vector<EqPoint> boundary = constellation.getBoundary();
+
+            for (int i = 0; i < boundary.size()-1; i++ ) {
+                boundary[i].compute(obs);
+                boundary[i+1].compute(obs);
+
+                double x1, y1, x2, y2;
+                PROJECT(boundary[i], x1, y1);
+                PROJECT(boundary[i+1], x2, y2);
+                ofDrawLine(ofPoint(x1, y1), ofPoint(x2, y2));
+            }
+        }
     }
-    
+    ofSetLineWidth(1);
+
     // Draw Stars
     for (int i = 0; i < Star::TOTAL; i++) {
-        if ( starsPos[i].distance(ofPoint(0)) > ofGetHeight()*.5) {
+        if ( stars[i].getAltitud() < 0 ) {
             continue;
         }
+        float size = starsSize[i];
+//        size *= exp(-(90-stars[i].getAltitud())*0.01);
         ofSetColor(0);
-        ofDrawCircle(starsPos[i], starsSize[i]);
+        ofDrawCircle(starsPos[i], size+1);
         ofSetColor(255,200);
-        ofDrawCircle(starsPos[i], starsSize[i]-1.);
+        ofDrawCircle(starsPos[i], size);
     }
-    
+
     // Draw Bodies
     for (int i = 0; i < bodies.size(); i++) {
         double x, y;
-        ProjOps::horizontalToFisheye(bodies[i], x, y);
-        ofPoint bodyPos = ofPoint(x, y) * ofGetHeight();
-        
-        if ( bodyPos.distance(ofPoint(0)) > ofGetHeight()*.5) {
+
+        PROJECT(bodies[i], x, y);
+        ofPoint bodyPos = ofPoint(x, y);
+
+        if ( bodies[i].getAltitudRadians() < 0 ) {
             continue;
         }
-        
+
         ofSetColor(255);
         drawString(bodies[i].getBodyName(), bodyPos + ofPoint(0.,20));
         if (bodies[i].getBodyId() == SUN) {
@@ -171,21 +230,22 @@ void ofApp::draw(){
         else {
             ofDrawCircle(bodyPos, 3);
         }
-        
+
     }
-    
+
     // Draw Moon
     {
         double x, y;
-        ProjOps::horizontalToFisheye(moon, x, y);
-        ofPoint moonPos = ofPoint(x, y) * ofGetHeight();
-        
-        if ( moonPos.distance(ofPoint(0)) < ofGetHeight()*.5) {
+
+        PROJECT(moon, x, y);
+        ofPoint moonPos = ofPoint(x, y);
+
+        if ( moon.getAltitud() > 0 ) {
             float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
-            
+
             ofSetColor(255);
             drawString(moon.getBodyName(), moonPos + ofPoint(0.,25));
-            
+
             moonShader.begin();
             ofPushMatrix();
             ofTranslate(moonPos);
@@ -197,16 +257,25 @@ void ofApp::draw(){
         }
     }
     
+    ofSetColor(255);
+    for (int i = 0; i < lines.size(); i++) {
+        double x1, y1, x2, y2;
+        PROJECTV(lines[i].A.x, lines[i].A.y, x1, y1);
+        PROJECTV(lines[i].B.x, lines[i].B.y, x2, y2);
+        ofDrawLine(x1, y1, x2, y2);
+        if (lines[i].text != "") {
+            double x3, y3;
+            PROJECTV(lines[i].T.x, lines[i].T.y, x3, y3);
+            drawString(lines[i].text, ofPoint(x3, y3));
+        }
+    }
+
     ofPopMatrix();
     
     // Draw Date
     drawString(date, ofGetWidth()*.5, 30);
     drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 50);
-    
-    drawString("E", ofGetWidth()*.5-ofGetHeight()*.5, ofGetHeight()*.5);
-    drawString("W", ofGetWidth()*.5+ofGetHeight()*.5, ofGetHeight()*.5);
-    drawString("S", ofGetWidth()*.5, ofGetHeight());
-    
+
     
     // Share screen through Syphon
     syphon.publishScreen();
