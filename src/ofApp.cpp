@@ -97,11 +97,13 @@ void ofApp::update(){
 
     // TIME CALCULATIONS
     // --------------------------------
-#ifndef TIME_ANIMATION
-    obs.setTime();
+    
+#ifdef TIME_ANIMATION
+    obs.setJuliaDay(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
 #else
-    obs.setJuliaDay(initial_jd + ofGetElapsedTimef() * .01);
+    obs.setTime();
 #endif
+
     TimeOps::JDtoMDY(obs.getJulianDate(), month, day, year);
     TimeOps::toHMS(day, hour, min, sec);
     date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
