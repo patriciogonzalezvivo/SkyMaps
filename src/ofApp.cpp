@@ -104,7 +104,7 @@ void ofApp::update(){
     obs.setTime();
 #endif
 
-    TimeOps::JDtoMDY(obs.getJulianDate(), month, day, year);
+    TimeOps::JDtoMDY(obs.getJulianDate()-0.3333333333, month, day, year);
     TimeOps::toHMS(day, hour, min, sec);
     date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
     date += " " + ofToString(hour,2,'0') + ":" + ofToString(min,2,'0') + ":" + ofToString(int(sec),2,'0');
@@ -113,7 +113,7 @@ void ofApp::update(){
     // --------------------------------
     
     // Update bodies positions
-    for ( int i = 0; i < bodies.size(); i++) {
+    for ( int i = 0; i < bodies.size(); i++ ) {
         bodies[i].compute(obs);
     }
     
