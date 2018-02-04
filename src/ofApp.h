@@ -73,6 +73,5 @@ public:
     // Time
     std::string     date;
     double          lng, lat;
-    double          day, sec;
-    int             month, year, hour, min;
+    int             month, year, day;
 };
