@@ -31,7 +31,7 @@ void ofApp::setup(){
     obs = Observer(lng, lat);
     
     // Initial Time
-    initial_jd = obs.getJulianDate();
+    initial_jd = obs.getJD();
     
     // Instanciate Bodies: Sun + 9 planets
     for (int i = 10; i >= 0; i--) {
@@ -99,14 +99,14 @@ void ofApp::update(){
     // --------------------------------
     
 #ifdef TIME_ANIMATION
-    obs.setJuliaDay(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
+    obs.setJD(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
 #else
     obs.setTime();
 #endif
 
-    TimeOps::JDtoDMY(obs.getJulianDate()-0.3333333333, day, month, year);
+    TimeOps::toDMY(obs.getJD()-0.3333333333, day, month, year);
 //    date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
-    date = TimeOps::formatDateTime(obs.getJulianDate()-0.3333333333, Y_MON_D_HM);
+    date = TimeOps::formatDateTime(obs.getJD()-0.3333333333, Y_MON_D_HM);
     
     // Updating BODIES positions
     // --------------------------------
