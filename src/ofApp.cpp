@@ -70,7 +70,7 @@ void ofApp::setup(){
         constellations.push_back(Constellation(i));
     }
     
-    vector<std::string> direction = { "S", "E", "N", "W" };
+    vector<std::string> direction = { "S", "W", "N", "E" };
     int step = 5;
     int total = 360/step;
     int labelstep = total/direction.size();
@@ -101,12 +101,12 @@ void ofApp::update(){
 #ifdef TIME_ANIMATION
     obs.setJD(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
 #else
-    obs.setTime();
+    obs.setSeconds();
 #endif
 
-    TimeOps::toDMY(obs.getJD()-0.3333333333, day, month, year);
+    TimeOps::toDMY(obs.getJD()+0.1666666667, day, month, year);
 //    date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
-    date = TimeOps::formatDateTime(obs.getJD()-0.3333333333, Y_MON_D_HM);
+    date = TimeOps::formatDateTime(obs.getJD()+0.1666666667, Y_MON_D_HM);
     
     // Updating BODIES positions
     // --------------------------------
