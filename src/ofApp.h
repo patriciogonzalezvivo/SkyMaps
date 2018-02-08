@@ -17,12 +17,12 @@
 
 #define TIME_ANIMATION 0.01
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
-#define PROJECTV(LNG,LAT,X,Y) ProjOps::toXY(proj, LNG, LAT, ofGetWidth(), ofGetHeight(), X, Y)
+//#define PROJECT_SHOW
 
 struct Line {
-    ofPoint A;
-    ofPoint B;
-    ofPoint T;
+    HorPoint A;
+    HorPoint B;
+    HorPoint T;
     std::string text;
 };
 

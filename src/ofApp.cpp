@@ -75,16 +75,34 @@ void ofApp::setup(){
     int total = 360/step;
     int labelstep = total/direction.size();
     for (int i = 0; i < 72; i++) {
-        Line h;
+        Line h1, h2, v1;
         float a = i*step-180;
         float b = (i+1)*step-180;
-        h.A = ofPoint(0.0, ofDegToRad(a));
-        h.B = ofPoint(0.0, ofDegToRad(b));
-        h.T = ofPoint(ofDegToRad(3.0), ofDegToRad(a));
+        h1.A = HorPoint(0., a);
+        h1.B = HorPoint(0., b);
+        h2.A = HorPoint(1., a);
+        h2.B = HorPoint(1., b);
+
+        v1.A = HorPoint(0., a);
+        
         if (i%labelstep == 0) {
-            h.text = direction[int(i/labelstep)];
+            h1.T = HorPoint(6., a);
+            h1.text = direction[int(i/labelstep)];
+            v1.B = HorPoint(4., a);
         }
-        lines.push_back(h);
+        else {
+            v1.B = HorPoint(3., a);
+        }
+        lines.push_back(h1);
+        lines.push_back(h2);
+        lines.push_back(v1);
+        
+        for (int j = 1; j < step; j++) {
+            Line v2;
+            v2.A = HorPoint(1., a+j);
+            v2.B = HorPoint(2., a+j);
+            lines.push_back(v2);
+        }
     }
     
     proj = POLAR;
@@ -241,7 +259,6 @@ void ofApp::draw(){
         else {
             ofDrawCircle(bodyPos, 3);
         }
-
     }
 
     // Draw Moon
@@ -271,12 +288,12 @@ void ofApp::draw(){
     ofSetColor(255);
     for (int i = 0; i < lines.size(); i++) {
         double x1, y1, x2, y2;
-        PROJECTV(lines[i].A.x, lines[i].A.y, x1, y1);
-        PROJECTV(lines[i].B.x, lines[i].B.y, x2, y2);
+        PROJECT(lines[i].A, x1, y1);
+        PROJECT(lines[i].B, x2, y2);
         ofDrawLine(x1, y1, x2, y2);
         if (lines[i].text != "") {
             double x3, y3;
-            PROJECTV(lines[i].T.x, lines[i].T.y, x3, y3);
+            PROJECT(lines[i].T, x3, y3);
             drawString(lines[i].text, ofPoint(x3, y3));
         }
     }
@@ -284,7 +301,9 @@ void ofApp::draw(){
     ofPopMatrix();
     
     // Draw Date
+#ifdef PROJECT_SHOW
     drawString(projectionName[proj], ofGetWidth()*.5, 30);
+#endif
     drawString(date, ofGetWidth()*.5, 50);
     drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 70);
 
