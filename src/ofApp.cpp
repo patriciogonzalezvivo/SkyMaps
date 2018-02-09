@@ -16,7 +16,7 @@ bool in_array(const std::string &value, const std::vector<string> &array){
 }
 
 ofPoint coord2EquatorialSphere(Star &_star, float _distance) {
-    Vector eclip = _star.getEquatorialVector() * _distance;
+    Vector eclip = _star.getEquatorial().getVector() * _distance;
     return ofPoint(eclip.x, eclip.y, eclip.z);
 }
 
@@ -119,10 +119,10 @@ void ofApp::update(){
 #ifdef TIME_ANIMATION
     obs.setJD(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
 #else
-    obs.setSeconds();
+    obs.setJD(TimeOps::now());
 #endif
 
-    TimeOps::toDMY(obs.getJD()+0.1666666667, day, month, year);
+    TimeOps::toDMY(obs.getJD(), day, month, year);
 //    date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
     date = TimeOps::formatDateTime(obs.getJD()+0.1666666667, Y_MON_D_HM);
     
@@ -142,7 +142,7 @@ void ofApp::update(){
         stars[i].compute(obs);
         double x, y;
         
-        PROJECT(stars[i], x, y);
+        PROJECT(stars[i].getHorizontal(), x, y);
         starsPos[i] = ofPoint(x, y);
     }
 }
@@ -184,8 +184,8 @@ void ofApp::draw(){
         }
 
         for (int i = 0; i < indices.size(); i+=2) {
-            if (stars[indices[i]].getAltitud() < 0 &&
-                stars[indices[i+1]].getAltitud() < 0 ) {
+            if (stars[indices[i]].getHorizontal().getAltitud() < 0 &&
+                stars[indices[i+1]].getHorizontal().getAltitud() < 0 ) {
                 continue;
             }
             
@@ -210,12 +210,12 @@ void ofApp::draw(){
             vector<EqPoint> boundary = constellation.getBoundary();
 
             for (int i = 0; i < boundary.size()-1; i++ ) {
-                boundary[i].compute(obs);
-                boundary[i+1].compute(obs);
+                HorPoint A = AstroOps::toHorizontal(obs, boundary[i]);
+                HorPoint B = AstroOps::toHorizontal(obs, boundary[i+1]);
 
                 double x1, y1, x2, y2;
-                PROJECT(boundary[i], x1, y1);
-                PROJECT(boundary[i+1], x2, y2);
+                PROJECT(A, x1, y1);
+                PROJECT(B, x2, y2);
                 
                 if (ofPoint(x1, y1).distance(ofPoint(x2, y2)) > ofGetWidth() * .5) {
                     continue;
@@ -229,7 +229,7 @@ void ofApp::draw(){
 
     // Draw Stars
     for (int i = 0; i < Star::TOTAL; i++) {
-        if ( stars[i].getAltitud() < 0 ) {
+        if ( stars[i].getHorizontal().getAltitud() < 0 ) {
             continue;
         }
         float size = starsSize[i];
@@ -244,10 +244,10 @@ void ofApp::draw(){
     for (int i = 0; i < bodies.size(); i++) {
         double x, y;
 
-        PROJECT(bodies[i], x, y);
+        PROJECT(bodies[i].getHorizontal(), x, y);
         ofPoint bodyPos = ofPoint(x, y);
 
-        if ( bodies[i].getAltitudRadians() < 0 ) {
+        if ( bodies[i].getHorizontal().getAltitud() < 0 ) {
             continue;
         }
 
@@ -265,10 +265,10 @@ void ofApp::draw(){
     {
         double x, y;
 
-        PROJECT(moon, x, y);
+        PROJECT(moon.getHorizontal(), x, y);
         ofPoint moonPos = ofPoint(x, y);
 
-        if ( moon.getAltitud() > 0 ) {
+        if ( moon.getHorizontal().getAltitud() > 0 ) {
             float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
 
             ofSetColor(255);
