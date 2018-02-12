@@ -20,9 +20,9 @@
 //#define PROJECT_SHOW
 
 struct Line {
-    HorPoint A;
-    HorPoint B;
-    HorPoint T;
+    Horizontal A;
+    Horizontal B;
+    Horizontal T;
     std::string text;
 };
 
@@ -73,5 +73,4 @@ public:
     // Time
     std::string     date;
     double          lng, lat;
-    int             month, year, day;
 };

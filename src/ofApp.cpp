@@ -2,7 +2,7 @@
 
 #include "GeoLoc/src/GeoLoc.h"
 #include "Astro/src/AstroOps.h"
-#include "Astro/src/Vector.h"
+#include "Astro/src/primitives/Vector.h"
 
 #include "TimeOps.h"
 double initial_jd;
@@ -78,20 +78,20 @@ void ofApp::setup(){
         Line h1, h2, v1;
         float a = i*step-180;
         float b = (i+1)*step-180;
-        h1.A = HorPoint(0., a);
-        h1.B = HorPoint(0., b);
-        h2.A = HorPoint(1., a);
-        h2.B = HorPoint(1., b);
+        h1.A = Horizontal(0., a, DEGS);
+        h1.B = Horizontal(0., b, DEGS);
+        h2.A = Horizontal(1., a, DEGS);
+        h2.B = Horizontal(1., b, DEGS);
 
-        v1.A = HorPoint(0., a);
+        v1.A = Horizontal(0., a, DEGS);
         
         if (i%labelstep == 0) {
-            h1.T = HorPoint(6., a);
+            h1.T = Horizontal(6., a, DEGS);
             h1.text = direction[int(i/labelstep)];
-            v1.B = HorPoint(4., a);
+            v1.B = Horizontal(4., a, DEGS);
         }
         else {
-            v1.B = HorPoint(3., a);
+            v1.B = Horizontal(3., a, DEGS);
         }
         lines.push_back(h1);
         lines.push_back(h2);
@@ -99,8 +99,8 @@ void ofApp::setup(){
         
         for (int j = 1; j < step; j++) {
             Line v2;
-            v2.A = HorPoint(1., a+j);
-            v2.B = HorPoint(2., a+j);
+            v2.A = Horizontal(1., a+j, DEGS);
+            v2.B = Horizontal(2., a+j, DEGS);
             lines.push_back(v2);
         }
     }
@@ -121,9 +121,6 @@ void ofApp::update(){
 #else
     obs.setJD(TimeOps::now());
 #endif
-
-    TimeOps::toDMY(obs.getJD(), day, month, year);
-//    date = ofToString(year) + "/" + ofToString(month,2,'0') + "/" + ofToString(int(day),2,'0');
     date = TimeOps::formatDateTime(obs.getJD()+0.1666666667, Y_MON_D_HM);
     
     // Updating BODIES positions
@@ -184,8 +181,8 @@ void ofApp::draw(){
         }
 
         for (int i = 0; i < indices.size(); i+=2) {
-            if (stars[indices[i]].getHorizontal().getAltitud() < 0 &&
-                stars[indices[i+1]].getHorizontal().getAltitud() < 0 ) {
+            if (stars[indices[i]].getHorizontal().getAltitud(RADS) < 0 &&
+                stars[indices[i+1]].getHorizontal().getAltitud(RADS) < 0 ) {
                 continue;
             }
             
@@ -207,11 +204,11 @@ void ofApp::draw(){
         }
 
         if (bVisible) {
-            vector<EqPoint> boundary = constellation.getBoundary();
+            vector<Equatorial> boundary = constellation.getBoundary();
 
             for (int i = 0; i < boundary.size()-1; i++ ) {
-                HorPoint A = AstroOps::toHorizontal(obs, boundary[i]);
-                HorPoint B = AstroOps::toHorizontal(obs, boundary[i+1]);
+                Horizontal A = AstroOps::toHorizontal(obs, boundary[i]);
+                Horizontal B = AstroOps::toHorizontal(obs, boundary[i+1]);
 
                 double x1, y1, x2, y2;
                 PROJECT(A, x1, y1);
@@ -229,7 +226,7 @@ void ofApp::draw(){
 
     // Draw Stars
     for (int i = 0; i < Star::TOTAL; i++) {
-        if ( stars[i].getHorizontal().getAltitud() < 0 ) {
+        if ( stars[i].getHorizontal().getAltitud(RADS) < 0 ) {
             continue;
         }
         float size = starsSize[i];
@@ -247,7 +244,7 @@ void ofApp::draw(){
         PROJECT(bodies[i].getHorizontal(), x, y);
         ofPoint bodyPos = ofPoint(x, y);
 
-        if ( bodies[i].getHorizontal().getAltitud() < 0 ) {
+        if ( bodies[i].getHorizontal().getAltitud(RADS) < 0 ) {
             continue;
         }
 
@@ -268,7 +265,7 @@ void ofApp::draw(){
         PROJECT(moon.getHorizontal(), x, y);
         ofPoint moonPos = ofPoint(x, y);
 
-        if ( moon.getHorizontal().getAltitud() > 0 ) {
+        if ( moon.getHorizontal().getAltitud(RADS) > 0 ) {
             float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
 
             ofSetColor(255);
