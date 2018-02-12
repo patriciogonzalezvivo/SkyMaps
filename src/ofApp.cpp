@@ -27,7 +27,7 @@ void ofApp::setup(){
     ofSetCircleResolution(36);
     
     // Initial Location
-    geoLoc(lng, lat, ofToDataPath(GEOIP_DB), ofToDataPath(GEOLOC_FILE));
+    geoLoc(lng, lat, ofToDataPath(GEOLOC_FILE));
     obs = Observer(lng, lat);
     
     // Initial Time
@@ -121,7 +121,8 @@ void ofApp::update(){
 #else
     obs.setJD(TimeOps::now());
 #endif
-    date = TimeOps::formatDateTime(obs.getJD()+0.1666666667, Y_MON_D_HM);
+    date = TimeOps::formatDateTime(obs.getJD(), Y_MON_D);
+    date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
     
     // Updating BODIES positions
     // --------------------------------
@@ -249,7 +250,7 @@ void ofApp::draw(){
         }
 
         ofSetColor(255);
-        drawString(bodies[i].getBodyName(), bodyPos + ofPoint(0.,20));
+        drawString(string(bodies[i].getBodyName()) + " " + MathOps::formatAngle(bodies[i].getHourAngle(RADS), RADS, Dd ) , bodyPos + ofPoint(0.,20));
         if (bodies[i].getBodyId() == SUN) {
             ofDrawCircle(bodyPos, 10);
         }
