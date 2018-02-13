@@ -10,6 +10,15 @@ double initial_jd;
 const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
 std::vector<string> projectionName = { "Polar", "Fisheye", "Ortho", "Stereo", "Lambert", "Equirectangular" };
+const ofFloatColor palette[] = {
+    ofFloatColor(0.020, 0.051, 0.090),
+    ofFloatColor(0.376, 0.099, 0.082),
+    ofFloatColor(0.918, 0.275, 0.247),
+    ofFloatColor(0.337, 0.780, 0.847),
+    ofFloatColor(0.621, 0.964, 0.988),
+    ofFloatColor(0.996, 1.000, 1.000)
+};
+
 
 bool in_array(const std::string &value, const std::vector<string> &array){
     return std::find(array.begin(), array.end(), value) != array.end();
@@ -145,14 +154,12 @@ void ofApp::update(){
     }
 }
 
-void drawString(std::string str, int x , int y) {
-    ofSetColor(255);
-    ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
-    ofDrawBitmapStringHighlight(str, x - str.length() * 4, y);
+void drawString(std::string str, int x , int y, const ofColor& frg = ofColor(255)) {
+    ofDrawBitmapStringHighlight(str, x - str.length() * 4, y, ofColor(0.), frg);
 }
 
-void drawString(std::string str, ofPoint p) {
-    drawString(str, p.x, p.y);
+void drawString(std::string str, ofPoint p, const ofColor& frg = ofColor(255)) {
+    drawString(str, p.x + str.length() * .5, p.y + 6., frg);
 }
 
 //--------------------------------------------------------------
@@ -197,11 +204,11 @@ void ofApp::draw(){
 
         if (bZodiac) {
             ofSetLineWidth(1);
-            ofSetColor(255, 0, 0, 100);
+            ofSetColor(palette[2], 150);
         }
         else {
             ofSetLineWidth(2);
-            ofSetColor(255, 0, 0, 50);
+            ofSetColor(palette[1], 200);
         }
 
         if (bVisible) {
@@ -250,7 +257,8 @@ void ofApp::draw(){
         }
 
         ofSetColor(255);
-        drawString(string(bodies[i].getBodyName()) + " " + MathOps::formatAngle(bodies[i].getHourAngle(RADS), RADS, Dd ) , bodyPos + ofPoint(0.,20));
+        drawString(string(bodies[i].getBodyName()), bodyPos + ofPoint(0.,20));
+        drawString(MathOps::formatAngle(bodies[i].getHourAngle(RADS), RADS, Dd) , bodyPos + ofPoint(0.,40), palette[3]);
         if (bodies[i].getBodyId() == SUN) {
             ofDrawCircle(bodyPos, 10);
         }
@@ -283,7 +291,18 @@ void ofApp::draw(){
         }
     }
     
-    ofSetColor(255);
+    // HUD
+    
+    // Meridian
+    double x1, y1, x2, y2;
+    PROJECT(AstroOps::toHorizontal(obs, Equatorial(0., 90., DEGS)), x1, y1);
+    PROJECT(Horizontal(180., 0., DEGS), x2, y2);
+    ofSetColor(palette[3]);
+    ofDrawLine(x1, y1, x2, y2);
+    
+    
+    // Borders
+    ofSetColor(palette[5]);
     for (int i = 0; i < lines.size(); i++) {
         double x1, y1, x2, y2;
         PROJECT(lines[i].A, x1, y1);
