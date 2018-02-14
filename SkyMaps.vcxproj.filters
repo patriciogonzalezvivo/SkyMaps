@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\AstroOps.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Body.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Constellation.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\coordinates\Ecliptic.cpp">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\coordinates\Equatorial.cpp">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\coordinates\Geodetic.cpp">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\coordinates\Horizontal.cpp">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Luna.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\MathOps.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Observer.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Pluto.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\primitives\DateTime.cpp">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\primitives\Polar.cpp">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\primitives\TimeSpan.cpp">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\primitives\Vector.cpp">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\ProjOps.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Star.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\TimeOps.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Astro\src\Vsop.cpp">
+      <Filter>src\Astro\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GeoLoc\src\GeoLoc.cpp">
+      <Filter>src\GeoLoc\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Astro">
+      <UniqueIdentifier>{CD26B3BC-034E-9A77-141F-0EF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Astro\src">
+      <UniqueIdentifier>{1F479FA1-8CB8-9485-A0AC-D866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Astro\src\coordinates">
+      <UniqueIdentifier>{1A940A14-8C5B-0C5A-2535-7D46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Astro\src\primitives">
+      <UniqueIdentifier>{1AB8A5FD-56E8-AD2A-A121-88C3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Astro\test">
+      <UniqueIdentifier>{82EE80D8-5300-8F39-CDA6-D391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GeoLoc">
+      <UniqueIdentifier>{7FC5F42C-7D96-5F16-CD06-284E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GeoLoc\src">
+      <UniqueIdentifier>{FB826458-B88F-68AC-263B-7D0F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\AstroOps.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Body.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Constellation.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\coordinates\Ecliptic.h">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\coordinates\Equatorial.h">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\coordinates\Geodetic.h">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\coordinates\Horizontal.h">
+      <Filter>src\Astro\src\coordinates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Luna.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\MathOps.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Observer.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Pluto.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\primitives\DateTime.h">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\primitives\Polar.h">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\primitives\TimeSpan.h">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\primitives\Vector.h">
+      <Filter>src\Astro\src\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\ProjOps.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Star.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\TimeOps.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Astro\src\Vsop.h">
+      <Filter>src\Astro\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GeoLoc\src\GeoLoc.h">
+      <Filter>src\GeoLoc\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>
