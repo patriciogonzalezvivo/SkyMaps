@@ -25,10 +25,17 @@
 
 #define FPS_DEBUG
 
-struct Line {
+struct HorLine {
     Horizontal A;
     Horizontal B;
     Horizontal T;
+    std::string text;
+};
+
+struct ScrLine {
+    ofPoint A;
+    ofPoint B;
+    ofPoint T;
     std::string text;
 };
 
@@ -77,7 +84,9 @@ public:
     vector<Constellation> constellations;
 
     // HUD
-    vector<Line>    lines;
+    void            updateLines();
+    vector<HorLine> hlines;
+    vector<ScrLine> slines;
     
     // Time
     std::string     date;

@@ -85,7 +85,7 @@ void ofApp::setup(){
     int total = 360/step;
     int labelstep = total/direction.size();
     for (int i = 0; i < 72; i++) {
-        Line h1, h2, v1;
+        HorLine h1, h2, v1;
         float a = i*step-180;
         float b = (i+1)*step-180;
         h1.A = Horizontal(0., a, DEGS);
@@ -103,15 +103,15 @@ void ofApp::setup(){
         else {
             v1.B = Horizontal(3., a, DEGS);
         }
-        lines.push_back(h1);
-        lines.push_back(h2);
-        lines.push_back(v1);
+        hlines.push_back(h1);
+        hlines.push_back(h2);
+        hlines.push_back(v1);
         
         for (int j = 1; j < step; j++) {
-            Line v2;
+            HorLine v2;
             v2.A = Horizontal(1., a+j, DEGS);
             v2.B = Horizontal(2., a+j, DEGS);
-            lines.push_back(v2);
+            hlines.push_back(v2);
         }
     }
     
@@ -125,6 +125,8 @@ void ofApp::setup(){
     ofSetFullscreen(true);
     ofHideCursor();
 #endif
+    
+    updateLines();
 }
 
 //--------------------------------------------------------------
@@ -168,6 +170,46 @@ void drawString(std::string str, int x , int y, const ofColor& frg = ofColor(255
 
 void drawString(std::string str, ofPoint p, const ofColor& frg = ofColor(255)) {
     drawString(str, p.x + str.length() * .5, p.y + 6., frg);
+}
+
+void ofApp::updateLines() {
+    slines.clear();
+    
+//    // Meridian
+//    double x1, y1, x2, y2, x3, y3;
+//    PROJECT(Horizontal(90., 0., DEGS), x1, y1);
+//    PROJECT(Horizontal(180., 0., DEGS), x2, y2);
+//    PROJECT(Horizontal(180., 180., DEGS), x3, y3);
+//    ofSetColor(palette[3]);
+//    ScrLine nl1;
+//    nl1.A = ofPoint(x1, y1);
+//    nl1.B = ofPoint(x2, y2);
+//    slines.push_back(nl1);
+//    
+//    ScrLine nl2;
+//    nl2.A = ofPoint(x1, y1);
+//    nl2.B = ofPoint(x3, y3);
+//    slines.push_back(nl2);
+
+    // Borders
+    ofSetColor(palette[5]);
+    for (int i = 0; i < hlines.size(); i++) {
+        double x1, y1, x2, y2;
+        PROJECT(hlines[i].A, x1, y1);
+        PROJECT(hlines[i].B, x2, y2);
+        ScrLine nl;
+        nl.A = ofPoint(x1, y1);
+        nl.B = ofPoint(x2, y2);
+        
+        if (hlines[i].text != "") {
+            double x3, y3;
+            PROJECT(hlines[i].T, x3, y3);
+            nl.T = ofPoint(x3, y3);
+            nl.text = hlines[i].text;
+        }
+        
+        slines.push_back(nl);
+    }
 }
 
 //--------------------------------------------------------------
@@ -300,27 +342,11 @@ void ofApp::draw(){
     }
     
     // HUD
-    
-    // Meridian
-    double x1, y1, x2, y2, x3, y3;
-    PROJECT(Horizontal(90., 0., DEGS), x1, y1);
-    PROJECT(Horizontal(180., 0., DEGS), x2, y2);
-    PROJECT(Horizontal(180., 180., DEGS), x3, y3);
-    ofSetColor(palette[3]);
-    ofDrawLine(x1, y1, x2, y2);
-    ofDrawLine(x1, y1, x3, y3);
-    
-    // Borders
     ofSetColor(palette[5]);
-    for (int i = 0; i < lines.size(); i++) {
-        double x1, y1, x2, y2;
-        PROJECT(lines[i].A, x1, y1);
-        PROJECT(lines[i].B, x2, y2);
-        ofDrawLine(x1, y1, x2, y2);
-        if (lines[i].text != "") {
-            double x3, y3;
-            PROJECT(lines[i].T, x3, y3);
-            drawString(lines[i].text, ofPoint(x3, y3));
+    for (int i = 0; i < slines.size(); i++) {
+        ofDrawLine(slines[i].A, slines[i].B);
+        if (slines[i].text != "") {
+            drawString(slines[i].text, slines[i].T);
         }
     }
 
@@ -348,6 +374,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     proj = ProjId((proj+1)%6);
+    updateLines();
 }
 
 //--------------------------------------------------------------
