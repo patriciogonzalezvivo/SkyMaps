@@ -121,6 +121,10 @@ void ofApp::setup(){
 #else
     syphon.setName("SkyMaps");
 #endif
+#ifdef FULLSCREEN
+    ofSetFullscreen(true);
+    ofHideCursor();
+#endif
 }
 
 //--------------------------------------------------------------
@@ -331,10 +335,13 @@ void ofApp::draw(){
 
     
 #if defined(_WIN32) || defined(_WIN64)
-    ofSetFullscreen(true);
 #else
     // Share screen through Syphon
     syphon.publishScreen();
+#endif
+    
+#ifdef FPS_DEBUG
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), 5, 15);
 #endif
 }
 

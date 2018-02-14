@@ -2,11 +2,6 @@
 
 #include "ofMain.h"
 
-#if defined(_WIN32) || defined(_WIN64)
-#else
-#include "ofxSyphon.h"
-#endif
-
 #define GEOIP_DB "GeoLiteCity.dat"
 #define GEOLOC_FILE "geoLoc.csv"
 
@@ -18,9 +13,17 @@
 
 #include "Astro/src/ProjOps.h"
 
+#if defined(_WIN32) || defined(_WIN64)
+#define FULLSCREEN
+#else
+#include "ofxSyphon.h"
+#endif
+
 //#define TIME_ANIMATION 0.01
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
 //#define PROJECT_SHOW
+
+#define FPS_DEBUG
 
 struct Line {
     Horizontal A;
