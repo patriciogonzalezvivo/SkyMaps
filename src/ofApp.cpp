@@ -116,7 +116,9 @@ void ofApp::setup(){
     
     proj = POLAR;
     
+#if defined(_WIN32) || defined(_WIN64)
     syphon.setName("SkyMaps");
+#endif
 }
 
 //--------------------------------------------------------------
@@ -294,12 +296,13 @@ void ofApp::draw(){
     // HUD
     
     // Meridian
-    double x1, y1, x2, y2;
-    PROJECT(AstroOps::toHorizontal(obs, Equatorial(0., 90., DEGS)), x1, y1);
+    double x1, y1, x2, y2, x3, y3;
+    PROJECT(Horizontal(90., 0., DEGS), x1, y1);
     PROJECT(Horizontal(180., 0., DEGS), x2, y2);
+    PROJECT(Horizontal(180., 180., DEGS), x3, y3);
     ofSetColor(palette[3]);
     ofDrawLine(x1, y1, x2, y2);
-    
+    ofDrawLine(x1, y1, x3, y3);
     
     // Borders
     ofSetColor(palette[5]);
@@ -325,8 +328,12 @@ void ofApp::draw(){
     drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 70);
 
     
+#if defined(_WIN32) || defined(_WIN64)
+    ofSetFullscreen(true);
+#else
     // Share screen through Syphon
     syphon.publishScreen();
+#endif
 }
 
 //--------------------------------------------------------------

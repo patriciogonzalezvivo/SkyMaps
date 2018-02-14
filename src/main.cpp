@@ -10,10 +10,17 @@ int main( ){
 //    // pass in width and height too:
 //    ofRunApp(new ofApp());
     
+
     ofGLWindowSettings settings;
     settings.setGLVersion(3, 2);
+    
+#if defined(_WIN32) || defined(_WIN64)
+    settings.width = 1536/2;//1080;
+    settings.height = 2048/2;//1920;
+#else
     settings.width = 1280;
     settings.height = 720;
+#endif
     ofCreateWindow(settings);
     ofRunApp(new ofApp());
 }

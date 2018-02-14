@@ -44,7 +44,10 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+#if defined(_WIN32) || defined(_WIN64)
+#else
     ofxSyphonServer syphon;
+#endif
     
     // Observers
     Observer        obs;

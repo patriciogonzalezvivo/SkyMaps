@@ -28,6 +28,8 @@
 		99C6142B20313C2900CFBF3C /* AstroOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C6141820313C2900CFBF3C /* AstroOps.cpp */; };
 		99C6142C20313C2900CFBF3C /* MathOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C6141920313C2900CFBF3C /* MathOps.cpp */; };
 		99C6142D20313C2900CFBF3C /* ProjOps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C6141A20313C2900CFBF3C /* ProjOps.cpp */; };
+		99C614712033447600CFBF3C /* TimeSpan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C6146F2033447600CFBF3C /* TimeSpan.cpp */; };
+		99C614782033AC2E00CFBF3C /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C614762033AC2E00CFBF3C /* DateTime.cpp */; };
 		C9109422648B170B07A778CF /* SyphonNameboundClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E3405C5AE387BDDC2AD19473 /* SyphonNameboundClient.m */; };
 		D6436D62D6F5044D4896AE40 /* GeoLoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F25E742ED99BC69B000A63E8 /* GeoLoc.cpp */; };
 		E1A3FD40C8BCD507345F1126 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D58DCB2C0AEFDE6171E29540 /* Syphon.framework */; };
@@ -110,6 +112,13 @@
 		99C6141820313C2900CFBF3C /* AstroOps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AstroOps.cpp; sourceTree = "<group>"; };
 		99C6141920313C2900CFBF3C /* MathOps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathOps.cpp; sourceTree = "<group>"; };
 		99C6141A20313C2900CFBF3C /* ProjOps.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjOps.cpp; sourceTree = "<group>"; };
+		99C6146F2033447600CFBF3C /* TimeSpan.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TimeSpan.cpp; sourceTree = "<group>"; };
+		99C614702033447600CFBF3C /* TimeSpan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSpan.h; sourceTree = "<group>"; };
+		99C6147220334F6B00CFBF3C /* astro.i */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c.preprocessed; path = astro.i; sourceTree = "<group>"; };
+		99C6147320334F7200CFBF3C /* setup.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = setup.py; sourceTree = "<group>"; };
+		99C6147420334F7200CFBF3C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		99C614762033AC2E00CFBF3C /* DateTime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
+		99C614772033AC2E00CFBF3C /* DateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTime.h; sourceTree = "<group>"; };
 		D58DCB2C0AEFDE6171E29540 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = ../../../addons/ofxSyphon/libs/Syphon/lib/osx/Syphon.framework; sourceTree = "<group>"; };
 		E3405C5AE387BDDC2AD19473 /* SyphonNameboundClient.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = SyphonNameboundClient.m; path = ../../../addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -221,6 +230,9 @@
 		99C613EC20313C2900CFBF3C /* Astro */ = {
 			isa = PBXGroup;
 			children = (
+				99C6147220334F6B00CFBF3C /* astro.i */,
+				99C6147420334F7200CFBF3C /* README.md */,
+				99C6147320334F7200CFBF3C /* setup.py */,
 				99C613F620313C2900CFBF3C /* src */,
 			);
 			path = Astro;
@@ -279,6 +291,10 @@
 				99C6140F20313C2900CFBF3C /* Polar.cpp */,
 				99C6141120313C2900CFBF3C /* Vector.h */,
 				99C6141020313C2900CFBF3C /* Vector.cpp */,
+				99C614702033447600CFBF3C /* TimeSpan.h */,
+				99C6146F2033447600CFBF3C /* TimeSpan.cpp */,
+				99C614772033AC2E00CFBF3C /* DateTime.h */,
+				99C614762033AC2E00CFBF3C /* DateTime.cpp */,
 			);
 			path = primitives;
 			sourceTree = "<group>";
@@ -435,6 +451,7 @@
 				99C6142820313C2900CFBF3C /* Polar.cpp in Sources */,
 				99C6142520313C2900CFBF3C /* Observer.cpp in Sources */,
 				99C6141F20313C2900CFBF3C /* Geodetic.cpp in Sources */,
+				99C614782033AC2E00CFBF3C /* DateTime.cpp in Sources */,
 				99C6142020313C2900CFBF3C /* Equatorial.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				99C6142220313C2900CFBF3C /* Ecliptic.cpp in Sources */,
@@ -447,6 +464,7 @@
 				99C6142320313C2900CFBF3C /* Vsop.cpp in Sources */,
 				99C6142720313C2900CFBF3C /* TimeOps.cpp in Sources */,
 				99C6142120313C2900CFBF3C /* Horizontal.cpp in Sources */,
+				99C614712033447600CFBF3C /* TimeSpan.cpp in Sources */,
 				8D60C222CBD3F869382832E9 /* ofxSyphonServer.mm in Sources */,
 				99C6142D20313C2900CFBF3C /* ProjOps.cpp in Sources */,
 				1F558B76FB3412843DDAA031 /* ofxSyphonClient.mm in Sources */,
