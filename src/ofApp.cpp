@@ -34,6 +34,7 @@ void ofApp::setup(){
     ofDisableArbTex();
     ofSetBackgroundColor(0);
     ofSetCircleResolution(36);
+	ofSetFrameRate(24);
     
     // Initial Location
     geoLoc(lng, lat, ofToDataPath(GEOLOC_FILE));
@@ -117,6 +118,7 @@ void ofApp::setup(){
     proj = POLAR;
     
 #if defined(_WIN32) || defined(_WIN64)
+#else
     syphon.setName("SkyMaps");
 #endif
 }
@@ -130,7 +132,7 @@ void ofApp::update(){
 #ifdef TIME_ANIMATION
     obs.setJD(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
 #else
-    obs.setJD(TimeOps::now());
+    obs.setJD(TimeOps::now(UTC));
 #endif
     date = TimeOps::formatDateTime(obs.getJD(), Y_MON_D);
     date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
