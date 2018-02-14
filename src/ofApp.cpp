@@ -34,7 +34,6 @@ void ofApp::setup(){
     ofDisableArbTex();
     ofSetBackgroundColor(0);
     ofSetCircleResolution(36);
-	ofSetFrameRate(24);
     
     // Initial Location
     geoLoc(lng, lat, ofToDataPath(GEOLOC_FILE));
@@ -118,6 +117,7 @@ void ofApp::setup(){
     proj = POLAR;
     
 #if defined(_WIN32) || defined(_WIN64)
+	ofSetFrameRate(1);
 #else
     syphon.setName("SkyMaps");
 #endif
