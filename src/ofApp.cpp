@@ -5,7 +5,6 @@
 #include "Astro/src/primitives/Vector.h"
 
 #include "TimeOps.h"
-double initial_jd;
 
 const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
@@ -33,6 +32,7 @@ void ofApp::setup(){
     ofDisableArbTex();
     ofSetBackgroundColor(0);
     ofSetCircleResolution(36);
+    ofSetFrameRate(30);
     ofSetVerticalSync(true);
     
     // Initial Location
@@ -40,7 +40,8 @@ void ofApp::setup(){
     obs = Observer(lng, lat);
     
     // Initial Time
-    initial_jd = obs.getJD();
+    time_offset = 0.;
+    time_play = false;
     
     // Instanciate Bodies: Sun + 9 planets
     for (int i = 10; i >= 0; i--) {
@@ -117,10 +118,10 @@ void ofApp::setup(){
     proj = POLAR;
     
 #if defined(_WIN32) || defined(_WIN64)
-	ofSetFrameRate(1);
 #else
     syphon.setName("SkyMaps");
 #endif
+    
 #ifdef FULLSCREEN
     ofSetFullscreen(true);
     ofHideCursor();
@@ -134,12 +135,11 @@ void ofApp::update(){
 
     // TIME CALCULATIONS
     // --------------------------------
+    if (time_play) {
+        time_offset += TIME_STEP;
+    }
+    obs.setJD(TimeOps::now(UTC) + time_offset);
     
-#ifdef TIME_ANIMATION
-    obs.setJD(initial_jd + ofGetElapsedTimef() * TIME_ANIMATION);
-#else
-    obs.setJD(TimeOps::now(UTC));
-#endif
     date = TimeOps::formatDateTime(obs.getJD(), Y_MON_D);
     date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
     
@@ -373,8 +373,22 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    proj = ProjId((proj+1)%6);
-    updateLines();
+    if ( key == 'r' ) {
+        time_offset -= TIME_STEP;
+    }
+    else if ( key == 'f' ) {
+        time_offset += TIME_STEP;
+    }
+    else if ( key == 'v' ) {
+        time_offset = 0;
+    }
+    else if ( key == 'p' ) {
+        time_play = !time_play;
+    }
+    else {
+        proj = ProjId((proj+1)%6);
+        updateLines();
+    }
 }
 
 //--------------------------------------------------------------

@@ -19,7 +19,7 @@
 #include "ofxSyphon.h"
 #endif
 
-//#define TIME_ANIMATION 0.01
+#define TIME_STEP 0.001
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
 //#define PROJECT_SHOW
 
@@ -91,4 +91,8 @@ public:
     // Time
     std::string     date;
     double          lng, lat;
+    
+    // Animation
+    float           time_offset;
+    bool            time_play;
 };
