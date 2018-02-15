@@ -19,7 +19,6 @@ const ofFloatColor palette[] = {
     ofFloatColor(0.996, 1.000, 1.000)
 };
 
-
 bool in_array(const std::string &value, const std::vector<string> &array){
     return std::find(array.begin(), array.end(), value) != array.end();
 }
@@ -34,6 +33,7 @@ void ofApp::setup(){
     ofDisableArbTex();
     ofSetBackgroundColor(0);
     ofSetCircleResolution(36);
+    ofSetVerticalSync(true);
     
     // Initial Location
     geoLoc(lng, lat, ofToDataPath(GEOLOC_FILE));
