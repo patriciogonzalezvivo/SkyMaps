@@ -140,7 +140,7 @@ void ofApp::update(){
     obs.setJD(TimeOps::now(UTC) + time_offset);
     
     date = TimeOps::formatDateTime(obs.getJD(), Y_MON_D);
-    date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
+    // date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
     
     // Updating BODIES positions
     // --------------------------------

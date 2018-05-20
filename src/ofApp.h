@@ -18,7 +18,7 @@
 #include "ofxSyphon.h"
 #endif
 
-#define FULLSCREEN
+// #define FULLSCREEN
 #define TIME_STEP 0.001
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
 //#define PROJECT_SHOW
