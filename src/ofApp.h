@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxSmartShader.h"
 
 #define GEOIP_DB "GeoLiteCity.dat"
 #define GEOLOC_FILE "geoLoc.csv"
@@ -13,12 +14,11 @@
 
 #include "Astro/src/ProjOps.h"
 
-#if defined(_WIN32) || defined(_WIN64)
-#define FULLSCREEN
-#else
+#ifdef TARGET_OSX
 #include "ofxSyphon.h"
 #endif
 
+#define FULLSCREEN
 #define TIME_STEP 0.001
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
 //#define PROJECT_SHOW
@@ -57,8 +57,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-#if defined(_WIN32) || defined(_WIN64)
-#else
+#ifdef TARGET_OSX
     ofxSyphonServer syphon;
 #endif
     
@@ -71,7 +70,7 @@ public:
     
     // Moon
     Luna            moon;
-    ofShader        moonShader;
+    ofxSmartShader  moonShader;
     
     ofVboMesh       billboard;
     

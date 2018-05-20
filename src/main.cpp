@@ -3,23 +3,13 @@
 
 //========================================================================
 int main( ){
-//    ofSetupOpenGL(1280,720,OF_WINDOW);            // <-------- setup the GL context
-//
-//    // this kicks off the running of my app
-//    // can be OF_WINDOW or OF_FULLSCREEN
-//    // pass in width and height too:
-//    ofRunApp(new ofApp());
-    
-
-    ofGLWindowSettings settings;
-    settings.setGLVersion(3, 2);
-    
-#if defined(_WIN32) || defined(_WIN64)
-    settings.width = 1536/2;//1080;
-    settings.height = 2048/2;//1920;
+	
+#ifdef TARGET_OPENGLES
+    ofGLESWindowSettings settings;
+    settings.setGLESVersion(2);
 #else
-    settings.width = 1280;
-    settings.height = 720;
+    ofGLWindowSettings settings;
+    settings.setGLVersion(3, 2);  // Programmable pipeline
 #endif
     ofCreateWindow(settings);
     ofRunApp(new ofApp());

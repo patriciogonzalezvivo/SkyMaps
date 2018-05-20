@@ -52,7 +52,7 @@ void ofApp::setup(){
     
     // Instanciate Moon
     moon = Luna();
-    moonShader.load("shaders/moon.vert","shaders/moon.frag");
+    moonShader.load("shaders/moon");
     
     billboard.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
     billboard.addVertex(ofPoint(-1.,-1));
@@ -117,8 +117,7 @@ void ofApp::setup(){
     
     proj = POLAR;
     
-#if defined(_WIN32) || defined(_WIN64)
-#else
+#ifdef TARGET_OSX
     syphon.setName("SkyMaps");
 #endif
     
@@ -360,9 +359,7 @@ void ofApp::draw(){
     drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 70);
 
     
-#if defined(_WIN32) || defined(_WIN64)
-#else
-    // Share screen through Syphon
+#ifdef TARGET_OSX
     syphon.publishScreen();
 #endif
     
