@@ -389,8 +389,8 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				DFBD7602252E3C5475B1AC44 /* GeoLoc */,
 				5692D35F95919D557ACFF62F /* Astro */,
 			);

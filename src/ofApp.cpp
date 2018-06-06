@@ -10,12 +10,13 @@ const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JU
 std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
 std::vector<string> projectionName = { "Polar", "Fisheye", "Ortho", "Stereo", "Lambert", "Equirectangular" };
 const ofFloatColor palette[] = {
-    ofFloatColor(0.020, 0.051, 0.090),
-    ofFloatColor(0.376, 0.099, 0.082),
-    ofFloatColor(0.918, 0.275, 0.247),
-    ofFloatColor(0.337, 0.780, 0.847),
-    ofFloatColor(0.621, 0.964, 0.988),
-    ofFloatColor(0.996, 1.000, 1.000)
+    ofFloatColor(0.020, 0.051, 0.090), // Dark
+    ofFloatColor(0.188, 0.349, 0.412), // Dark Blue
+    ofFloatColor(0.498, 0.773, 0.843), // Blue
+    ofFloatColor(0.733, 0.957, 0.976), // Light Blie
+    ofFloatColor(1.000, 1.000, 0.886), // Light Yellow
+    ofFloatColor(0.933, 0.937, 0.937), // WHITE
+    ofFloatColor(0.976, 0.373, 0.349)  // Red
 };
 
 bool in_array(const std::string &value, const std::vector<string> &array){
@@ -41,6 +42,7 @@ void ofApp::setup(){
     
     // Initial Time
     time_offset = 0.;
+    time_step = 0.0005;
     time_play = false;
     
     // Instanciate Bodies: Sun + 9 planets
@@ -79,6 +81,42 @@ void ofApp::setup(){
     for (int i = 0; i < Constellation::TOTAL; i++) {
         constellations.push_back(Constellation(i));
     }
+    
+#ifdef SATELLITES
+    // Satellites
+    TLE sats[] = {
+         TLE("HOBBLE",
+             "1 20580U 90037B   18154.57093887 +.00000421 +00000-0 +14812-4 0  9997",
+             "2 20580 028.4684 205.1197 0002723 359.7851 153.4291 15.09046689343324"),
+         TLE("TERRA",
+             "1 25994U 99068A   18154.24441102 -.00000021  00000-0  53030-5 0  9998",
+             "2 25994  98.2062 229.3170 0001386  97.9233 262.2105 14.57104269981794"),
+        TLE("GOES 16",
+            "1 41866U 16071A   18154.50918000 -.00000249  00000-0  00000-0 0  9998",
+            "2 41866   0.0024 323.4828 0001042 138.0782 258.4507  1.00269829  5675"),
+        TLE("GOES 17",
+            "1 43226U 18022A   18153.55154698 -.00000184 +00000-0 +00000-0 0  9995",
+            "2 43226 000.0506 131.5682 0001494 306.5382 281.9134 01.00275070000988"),
+//        TLE("SUOMI",
+//            "1 37849U 11061A   18154.59022466  .00000019  00000-0  29961-4 0  9994",
+//            "2 37849  98.7369  93.2509 0000790 115.8241 296.7478 14.19549859341951"),
+         TLE("NOAA 19",
+             "1 33591U 09005A   18154.53769778  .00000063  00000-0  59621-4 0  9992",
+             "2 33591  99.1410 132.2940 0014182   9.6985 350.4457 14.12282740480248"),
+         TLE("NOAA 20",
+             "1 43013U 17073A   18154.54421336  .00000003  00000-0  22344-4 0  9998",
+             "2 43013  98.7249  93.0462 0000870  77.9803 282.1471 14.19559862 27975"),
+        TLE("ISS",
+            "1 25544U 98067A   18151.37845806  .00001264  00000-0  26359-4 0  9999",
+            "2 25544  51.6399 102.5027 0003948 138.3660   3.9342 15.54113216115909")
+    };
+    
+    int N = sizeof(sats)/sizeof(sats[0]);
+    for (int i = 0; i < N; i++) {
+        satellites.push_back(Satellite(sats[i]));
+    }
+#endif
+    
     
     vector<std::string> direction = { "S", "W", "N", "E" };
     int step = 5;
@@ -135,7 +173,7 @@ void ofApp::update(){
     // TIME CALCULATIONS
     // --------------------------------
     if (time_play) {
-        time_offset += TIME_STEP;
+        time_offset += time_step;
     }
     obs.setJD(TimeOps::now(UTC) + time_offset);
     
@@ -161,6 +199,12 @@ void ofApp::update(){
         PROJECT(stars[i].getHorizontal(), x, y);
         starsPos[i] = ofPoint(x, y);
     }
+    
+#ifdef SATELLITES
+    for ( unsigned int i = 0; i < satellites.size(); i++) {
+        satellites[i].compute(obs);
+    }
+#endif
 }
 
 void drawString(std::string str, int x , int y, const ofColor& frg = ofColor(255)) {
@@ -224,16 +268,17 @@ void ofApp::draw(){
         bool bZodiac = false;
 
         std::string name = constellation.getAbbreviation();
+        
         if (in_array(name, zodiacSigns) ) {
             bZodiac = true;
         }
 
         if (bZodiac) {
-            ofSetLineWidth(1);
+            ofSetLineWidth(2);
             ofSetColor(255, 120);
         }
         else {
-            ofSetLineWidth(2);
+            ofSetLineWidth(1);
             ofSetColor(255, 70);
         }
 
@@ -252,12 +297,12 @@ void ofApp::draw(){
         }
 
         if (bZodiac) {
-            ofSetLineWidth(1);
-            ofSetColor(palette[2], 150);
+            ofSetLineWidth(2);
+            ofSetColor(palette[6], 120);
         }
         else {
-            ofSetLineWidth(2);
-            ofSetColor(palette[1], 200);
+            ofSetLineWidth(1);
+            ofSetColor(palette[6], 70);
         }
 
         if (bVisible) {
@@ -296,34 +341,37 @@ void ofApp::draw(){
 
     // Draw Bodies
     for (int i = 0; i < bodies.size(); i++) {
-        double x, y;
-
-        PROJECT(bodies[i].getHorizontal(), x, y);
-        ofPoint bodyPos = ofPoint(x, y);
-
         if ( bodies[i].getHorizontal().getAltitud(RADS) < 0 ) {
             continue;
         }
 
-        ofSetColor(255);
+        double x, y;
+        PROJECT(bodies[i].getHorizontal(), x, y);
+        ofPoint bodyPos = ofPoint(x, y);
+        
+        ofPushStyle();
+        ofSetColor(palette[5]);
         drawString(string(bodies[i].getName()), bodyPos + ofPoint(0.,20));
+#ifdef DEBUG_HOUR_ANGLE
         drawString(MathOps::formatAngle(bodies[i].getHourAngle(RADS), RADS, Dd) , bodyPos + ofPoint(0.,40), palette[3]);
+#endif
         if (bodies[i].getId() == SUN) {
             ofDrawCircle(bodyPos, 10);
         }
         else {
             ofDrawCircle(bodyPos, 3);
         }
+        ofPopStyle();
     }
 
     // Draw Moon
     {
-        double x, y;
-
-        PROJECT(moon.getHorizontal(), x, y);
-        ofPoint moonPos = ofPoint(x, y);
-
         if ( moon.getHorizontal().getAltitud(RADS) > 0 ) {
+            double x, y;
+            
+            PROJECT(moon.getHorizontal(), x, y);
+            ofPoint moonPos = ofPoint(x, y);
+            
             float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
 
             ofSetColor(255);
@@ -339,6 +387,28 @@ void ofApp::draw(){
             moonShader.end();
         }
     }
+    
+#ifdef SATELLITES
+    for ( unsigned int i = 0; i < satellites.size(); i++) {
+        if ( satellites[i].getHorizontal().getAltitud(RADS) < 0 ) {
+            continue;
+        }
+
+        double x, y;
+        PROJECT(satellites[i].getHorizontal(), x, y);
+        ofPoint bodyPos = ofPoint(x, y);
+        
+        ofPushStyle();
+        ofSetColor(palette[3]);
+        drawString(string(satellites[i].getName()), bodyPos + ofPoint(0.,20));
+#ifdef DEBUG_HOUR_ANGLE
+        drawString(MathOps::formatAngle(satellites[i].getHourAngle(RADS), RADS, Dd) , bodyPos + ofPoint(0.,40), palette[3]);
+#endif
+        ofDrawRectangle(bodyPos, 5, 5);
+        ofPopStyle();
+        
+    }
+#endif
     
     // HUD
     ofSetColor(palette[5]);
@@ -371,20 +441,26 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if ( key == 'r' ) {
-        time_offset -= TIME_STEP;
+        time_offset -= time_step;
     }
     else if ( key == 'f' ) {
-        time_offset += TIME_STEP;
+        time_offset += time_step;
+    }
+    if ( key == '-' ) {
+        time_step -= 0.0001;
+    }
+    else if ( key == '=' ) {
+        time_step += 0.0001;
     }
     else if ( key == 'v' ) {
         time_offset = 0;
     }
     else if ( key == 'p' ) {
-        time_play = !time_play;
-    }
-    else {
         proj = ProjId((proj+1)%6);
         updateLines();
+    }
+    else {
+        time_play = !time_play;
     }
 }
 

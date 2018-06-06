@@ -11,6 +11,7 @@
 #include "Astro/src/Star.h"
 #include "Astro/src/Body.h"
 #include "Astro/src/Constellation.h"
+#include "Astro/src/Satellite.h"
 
 #include "Astro/src/ProjOps.h"
 
@@ -19,11 +20,12 @@
 #endif
 
 // #define FULLSCREEN
-#define TIME_STEP 0.001
 #define PROJECT(S,X,Y) ProjOps::toXY(proj, S, ofGetWidth(), ofGetHeight(), X, Y)
-//#define PROJECT_SHOW
 
-#define FPS_DEBUG
+//#define PROJECT_SHOW
+//#define FPS_DEBUG
+//#define DEBUG_HOUR_ANGLE
+#define SATELLITES
 
 struct HorLine {
     Horizontal A;
@@ -81,6 +83,12 @@ public:
     
     // Constellations
     vector<Constellation> constellations;
+    
+#ifdef SATELLITES
+    // SATELLITES
+    // -----------------------
+    vector<Satellite> satellites;
+#endif
 
     // HUD
     void            updateLines();
@@ -93,5 +101,6 @@ public:
     
     // Animation
     float           time_offset;
+    float           time_step;
     bool            time_play;
 };
