@@ -306,9 +306,9 @@ void ofApp::draw(){
         }
 
         ofSetColor(255);
-        drawString(string(bodies[i].getBodyName()), bodyPos + ofPoint(0.,20));
+        drawString(string(bodies[i].getName()), bodyPos + ofPoint(0.,20));
         drawString(MathOps::formatAngle(bodies[i].getHourAngle(RADS), RADS, Dd) , bodyPos + ofPoint(0.,40), palette[3]);
-        if (bodies[i].getBodyId() == SUN) {
+        if (bodies[i].getId() == SUN) {
             ofDrawCircle(bodyPos, 10);
         }
         else {
@@ -327,7 +327,7 @@ void ofApp::draw(){
             float moonPhase = moon.getAge()/Luna::SYNODIC_MONTH;
 
             ofSetColor(255);
-            drawString(moon.getBodyName(), moonPos + ofPoint(0.,25));
+            drawString(moon.getName(), moonPos + ofPoint(0.,25));
 
             moonShader.begin();
             ofPushMatrix();
