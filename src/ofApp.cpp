@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 #include "GeoLoc/src/GeoLoc.h"
-#include "Astro/src/AstroOps.h"
+#include "Astro/src/CoordOps.h"
 #include "Astro/src/primitives/Vector.h"
 
 #include "TimeOps.h"
@@ -10,13 +10,13 @@ const std::string monthNames[] = { "ENE", "FEB", "MAR", "APR", "MAY", "JUN", "JU
 std::vector<string> zodiacSigns = { "Ari", "Tau", "Gem", "Cnc", "Leo", "Vir", "Lib", "Sco", "Sgr", "Cap", "Aqr", "Psc" };
 std::vector<string> projectionName = { "Polar", "Fisheye", "Ortho", "Stereo", "Lambert", "Equirectangular" };
 const ofFloatColor palette[] = {
-    ofFloatColor(0.020, 0.051, 0.090), // Dark
-    ofFloatColor(0.188, 0.349, 0.412), // Dark Blue
-    ofFloatColor(0.498, 0.773, 0.843), // Blue
-    ofFloatColor(0.733, 0.957, 0.976), // Light Blie
-    ofFloatColor(1.000, 1.000, 0.886), // Light Yellow
-    ofFloatColor(0.933, 0.937, 0.937), // WHITE
-    ofFloatColor(0.976, 0.373, 0.349)  // Red
+    ofFloatColor(0.020, 0.051, 0.090), // 0 Dark
+    ofFloatColor(0.188, 0.349, 0.412), // 1 Dark Blue
+    ofFloatColor(0.498, 0.773, 0.843), // 2 Blue
+    ofFloatColor(0.733, 0.957, 0.976), // 3 Light Blue
+    ofFloatColor(1.000, 1.000, 0.886), // 4 Light Yellow
+    ofFloatColor(0.933, 0.937, 0.937), // 5 WHITE
+    ofFloatColor(0.976, 0.373, 0.349)  // 6 Red
 };
 
 bool in_array(const std::string &value, const std::vector<string> &array){
@@ -178,7 +178,7 @@ void ofApp::update(){
     obs.setJD(TimeOps::now(UTC) + time_offset);
     
     date = TimeOps::formatDateTime(obs.getJD(), Y_MON_D);
-    // date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
+    date += " " + std::string(TimeOps::formatTime(obs.getJD() + 0.1666666667, true));;
     
     // Updating BODIES positions
     // --------------------------------
@@ -272,14 +272,22 @@ void ofApp::draw(){
         if (in_array(name, zodiacSigns) ) {
             bZodiac = true;
         }
+        
+//        for ( unsigned int i = 0; i < satellites.size(); i++) {
+//            Constellation c = Constellation( satellites[i].getEquatorial() );
+//            if (constellation.getId() == c.getId()) {
+//                bZodiac = true;
+//                break;
+//            }
+//        }
 
         if (bZodiac) {
             ofSetLineWidth(2);
-            ofSetColor(255, 120);
+            ofSetColor(palette[2], 120);
         }
         else {
             ofSetLineWidth(1);
-            ofSetColor(255, 70);
+            ofSetColor(palette[2], 70);
         }
 
         for (int i = 0; i < indices.size(); i+=2) {
@@ -298,7 +306,7 @@ void ofApp::draw(){
 
         if (bZodiac) {
             ofSetLineWidth(2);
-            ofSetColor(palette[6], 120);
+            ofSetColor(palette[6], 200);
         }
         else {
             ofSetLineWidth(1);
@@ -309,8 +317,8 @@ void ofApp::draw(){
             vector<Equatorial> boundary = constellation.getBoundary();
 
             for (int i = 0; i < boundary.size()-1; i++ ) {
-                Horizontal A = AstroOps::toHorizontal(obs, boundary[i]);
-                Horizontal B = AstroOps::toHorizontal(obs, boundary[i+1]);
+                Horizontal A = CoordOps::toHorizontal(obs, boundary[i]);
+                Horizontal B = CoordOps::toHorizontal(obs, boundary[i+1]);
 
                 double x1, y1, x2, y2;
                 PROJECT(A, x1, y1);
@@ -411,7 +419,7 @@ void ofApp::draw(){
 #endif
     
     // HUD
-    ofSetColor(palette[5]);
+    ofSetColor(palette[3]);
     for (int i = 0; i < slines.size(); i++) {
         ofDrawLine(slines[i].A, slines[i].B);
         if (slines[i].text != "") {
@@ -459,6 +467,9 @@ void ofApp::keyPressed(int key){
         proj = ProjId((proj+1)%6);
         updateLines();
     }
+    else if ( key == 'f' ) {
+        ofToggleFullscreen();
+    }
     else {
         time_play = !time_play;
     }
@@ -501,7 +512,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    updateLines();
 }
 
 //--------------------------------------------------------------
