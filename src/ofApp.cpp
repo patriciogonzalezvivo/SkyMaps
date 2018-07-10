@@ -155,10 +155,6 @@ void ofApp::setup(){
     
     proj = POLAR;
     
-#ifdef TARGET_OSX
-    syphon.setName("SkyMaps");
-#endif
-    
 #ifdef FULLSCREEN
     ofSetFullscreen(true);
     ofHideCursor();
@@ -436,11 +432,6 @@ void ofApp::draw(){
     drawString(date, ofGetWidth()*.5, 50);
     drawString("lng: " + ofToString(lng,2,'0') + "  lat: " + ofToString(lat,2,'0'), ofGetWidth()*.5, 70);
 
-    
-#ifdef TARGET_OSX
-    syphon.publishScreen();
-#endif
-    
 #ifdef FPS_DEBUG
     ofDrawBitmapString(ofToString(ofGetFrameRate()), 5, 15);
 #endif
